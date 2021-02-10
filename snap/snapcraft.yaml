@@ -1,0 +1,47 @@
+name: ctrlx-octoprint
+title: Octoprint
+base: core18
+summary: Octoprint the snappy web interface for your 3D printer
+description: |
+  Control and monitor every aspect of your 3D printer and your printing jobs right from within your browser
+grade: devel
+confinement: strict
+adopt-info: version
+
+parts:
+  octoprint:
+    plugin: python
+    python-version: python3
+    source: https://github.com/OctoPrint/OctoPrint.git
+  version:
+    source: .
+    plugin: nil
+    override-stage: |
+      snapcraftctl set-version "$(cat VERSION)+$(date +%Y%m%d%H%M%S)"
+    after:
+    - configs
+    - octoprint
+  configs:
+    source: ./configs
+    plugin: dump
+    organize:
+      'package-assets/*': package-assets/${SNAPCRAFT_PROJECT_NAME}/
+
+apps:
+  ctrlx-octoprint:
+    command: usr/bin/python3 $SNAP/bin/octoprint serve -c $SNAP_DATA/.octoprint -b $SNAP_DATA --iknowwhatimdoing
+    plugs: 
+      - network-bind
+      - mount-observe
+
+plugs:
+  usb-0:
+    interface: serial-port
+
+slots:
+  package-assets:
+    interface: content
+    content: package-assets
+    source:
+      read:
+      - $SNAP/package-assets/${SNAPCRAFT_PROJECT_NAME}
