@@ -12,10 +12,13 @@ jobs:
 
       - name: Install Snapcraft
         uses: samuelmeuli/action-snapcraft@v1
+        with:
+          use_lxd: true
 
       # You can now run Snapcraft shell commands
       - name: Use Snapcraft
-        run: snapcraft
+        run: sg lxd -c 'snapcraft --use-lxd'
+
 
       - uses: actions/upload-artifact@v2
         with:
@@ -23,22 +26,22 @@ jobs:
           path: '*.snap'
           if-no-files-found: error
           
-  arm64:
-    runs-on: ubuntu-18.04
+#   arm64:
+#     runs-on: ubuntu-18.04
 
-    steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Check out Git repository
+#         uses: actions/checkout@v2
 
-      - name: Install Snapcraft
-        uses: samuelmeuli/action-snapcraft@v1
+#       - name: Install Snapcraft
+#         uses: samuelmeuli/action-snapcraft@v1
 
-      # You can now run Snapcraft shell commands
-      - name: Use Snapcraft
-        run: snapcraft --target-arch=arm64
+#       # You can now run Snapcraft shell commands
+#       - name: Use Snapcraft
+#         run: snapcraft --target-arch=arm64
 
-      - uses: actions/upload-artifact@v2
-        with:
-          name: snapped
-          path: '*.snap'
-          if-no-files-found: error
+#       - uses: actions/upload-artifact@v2
+#         with:
+#           name: snapped
+#           path: '*.snap'
+#           if-no-files-found: error
