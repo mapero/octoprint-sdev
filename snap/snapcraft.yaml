@@ -13,23 +13,25 @@ parts:
     plugin: python
     python-version: python3
     source: https://github.com/OctoPrint/OctoPrint.git
-  version:
-    source: .
-    plugin: nil
-    override-stage: |
-      snapcraftctl set-version "$(cat VERSION)+$(date +%Y%m%d%H%M%S)"
-    after:
-    - configs
-    - octoprint
   configs:
     source: ./configs
     plugin: dump
     organize:
       'package-assets/*': package-assets/${SNAPCRAFT_PROJECT_NAME}/
+  version:
+    source: .
+    plugin: nil
+    override-stage: |
+      snapcraftctl set-version "$(cat VERSION)-$(date +%Y%m%d%H%M%S)"
+    after:
+    - configs
+    - octoprint
+
 
 apps:
   ctrlx-octoprint:
-    command: usr/bin/python3 $SNAP/bin/octoprint serve -c $SNAP_DATA/.octoprint -b $SNAP_DATA --iknowwhatimdoing
+    command: usr/bin/python3 $SNAP/bin/octoprint serve -c $SNAP_DATA/config.yaml -b $SNAP_DATA/data --iknowwhatimdoing
+    daemon: simple
     plugs: 
       - network-bind
       - mount-observe
@@ -45,3 +47,11 @@ slots:
     source:
       read:
       - $SNAP/package-assets/${SNAPCRAFT_PROJECT_NAME}
+
+layout:
+  $SNAP/usr/lib/python3/dist-packages:
+    bind: $SNAP_DATA/dist-packages
+  $SNAP/usr/lib/python3/site-packages:
+    bind: $SNAP_DATA/site-packages
+  $SNAP/usr/local/lib/python3/dist-packages:
+    bind: $SNAP_DATA/local/dist-packages
