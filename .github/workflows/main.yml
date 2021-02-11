@@ -43,8 +43,8 @@ jobs:
           platforms: all
       - uses: addnab/docker-run-action@v1
         with:
-          image: diddledan/snapcraft:core18@sha256:a90b545955f11e0ce70fa8d846a5f98ba9bdb747b32696b751f0a96892bbc535
-          options: -v ${{ github.workspace }}:/work -w /work
+          image: diddledan/snapcraft:core18
+          options: -v ${{ github.workspace }}:/work -w /work --platform linux/arm64
           run: |
                     snapcraft version
                     snapcraft
