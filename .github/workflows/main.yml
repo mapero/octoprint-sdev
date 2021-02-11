@@ -44,4 +44,9 @@ jobs:
       - uses: addnab/docker-run-action@v1
         with:
           image: adferrand/snapcraft:arm64v8-candidate
-          run: snapcraft version
+          options: -v $GITHUB_WORKSPACE:/work -w /work
+          run: |
+                    snapcraft version
+                    snapcraft
+                    ls -lah
+          
