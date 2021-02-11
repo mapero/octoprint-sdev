@@ -29,10 +29,19 @@ jobs:
         
 
   docker-job:
-    container:
-      image: snapcore/snapcraft
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
-      - run: |
-          uname -a
-          snapcraft version
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+        with:
+          image: tonistiigi/binfmt:latest
+          platforms: all
+      - uses: addnab/docker-run-action@v1
+        with:
+          image: adferrand/snapcraft:arm64v8-candidate
+          run: uname -a
