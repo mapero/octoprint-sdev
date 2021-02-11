@@ -29,24 +29,9 @@ jobs:
         
 
   docker-job:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-      -
-        name: Checkout
+      - name: Check out Git repository
         uses: actions/checkout@v2
-      -
-        name: Set up QEMU
-        id: qemu
-        uses: docker/setup-qemu-action@v1
-        with:
-          image: tonistiigi/binfmt:latest
-          platforms: all
-      - uses: addnab/docker-run-action@v1
-        with:
-          image: diddledan/snapcraft:core18
-          options: -v ${{ github.workspace }}:/work -w /work --platform linux/arm64
-          run: |
-                    snapcraft version
-                    snapcraft
-                    ls -lah
-          
+      - name: Install Snapcraft
+        uses: samuelmeuli/action-snapcraft@v1
