@@ -2,7 +2,7 @@ name: Build
 
 on: push
 
-# jobs:
+jobs:
 #   amd64:
 #     runs-on: ubuntu-18.04
 
