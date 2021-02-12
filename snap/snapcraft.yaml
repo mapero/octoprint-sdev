@@ -3,16 +3,43 @@ title: Octoprint
 base: core18
 summary: Octoprint the snappy web interface for your 3D printer
 description: |
-  Control and monitor every aspect of your 3D printer and your printing jobs right from within your browser
-grade: devel
+  # Full remote control & monitoring
+
+  Control and monitor every aspect of your 3D printer and your printing jobs right from within your browser.
+
+  # Compatible and extendable
+
+  OctoPrint's powerful plugin system allows extending its functionality with awesome plugins from the community.
+
+  # 100% Open Source
+
+  Free and open source software released under the Affero General Public License (AGPL).
+
+  # Compatible to Bosch Rexroth ctrlX CORE environment
+
+  Integration into sidebar and reverse proxy environment
+grade: stable
 confinement: strict
 adopt-info: version
 
 parts:
+  git-info:
+    plugin: nil
+    source: .
+    override-build: |
+      echo $(git rev-parse --abbrev-ref HEAD) > ${SNAPCRAFT_PART_INSTALL}/BRANCH
+    stage:
+      - BRANCH
   octoprint:
     plugin: python
     python-version: python3
     source: https://github.com/OctoPrint/OctoPrint.git
+    override-pull: |
+      export OCTOPRINT_VERSION=$(cat $SNAPCRAFT_STAGE/VERSION)
+      snapcraftctl pull
+      git checkout tags/${OCTOPRINT_VERSION}
+    after:
+    - configs
   configs:
     source: ./configs
     plugin: dump
@@ -22,8 +49,15 @@ parts:
     source: .
     plugin: nil
     override-stage: |
-      snapcraftctl set-version "$(cat VERSION)-$(date +%Y%m%d%H%M%S)"
+      if [ "$(cat BRANCH)" = "master" ]; then
+        snapcraftctl set-grade "stable"
+        snapcraftctl set-version "$(cat VERSION)+$(date +%Y%m%d%H%M)"
+      else
+        snapcraftctl set-grade "devel"
+        snapcraftctl set-version "$(cat VERSION)-devel+$(date +%Y%m%d%H%M)"
+      fi
     after:
+    - git-info
     - configs
     - octoprint
 
