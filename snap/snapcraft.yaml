@@ -2,6 +2,7 @@ name: octoprint-sdev
 title: Octoprint
 base: core18
 summary: Octoprint the snappy web interface for your 3D printer
+logo: snap/gui/logo.png
 architectures:
   - build-on: amd64
     run-on: amd64
