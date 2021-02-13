@@ -1,0 +1,8 @@
+#!/bin/bash -x
+
+if [ -z "$(snapctl get port)" ]; then
+    snapctl set port=5000
+fi
+
+# Generate manifest
+$SNAP/snap/command-chain/snapcraft-runner generate_manifest.sh

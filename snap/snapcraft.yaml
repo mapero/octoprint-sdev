@@ -35,6 +35,16 @@ parts:
       echo $(git rev-parse --abbrev-ref HEAD) > ${SNAPCRAFT_PART_INSTALL}/BRANCH
     stage:
       - BRANCH
+  jq:
+    plugin: nil
+    source: .
+    stage-snaps:
+      - jq
+    stage:
+      - usr
+  wrapper:
+    plugin: dump
+    source: ./wrapper
   octoprint:
     plugin: python
     python-version: python3
@@ -68,8 +78,8 @@ parts:
 
 
 apps:
-  ctrlx-octoprint:
-    command: usr/bin/python3 $SNAP/bin/octoprint serve -c $SNAP_DATA/config.yaml -b $SNAP_DATA/data --iknowwhatimdoing
+  octoprint-sdev:
+    command: bin/octoprint-starter.sh
     daemon: simple
     plugs: 
       - network-bind
@@ -85,7 +95,7 @@ slots:
     content: package-assets
     source:
       read:
-      - $SNAP/package-assets/${SNAPCRAFT_PROJECT_NAME}
+      - $SNAP_DATA/package-assets/$SNAP_INSTANCE_NAME
 
 layout:
   $SNAP/usr/lib/python3/dist-packages:

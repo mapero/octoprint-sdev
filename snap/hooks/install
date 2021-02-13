@@ -1,0 +1,9 @@
+#!/bin/bash -x
+
+# Find a port 5000-5010
+while :; do PORT="`shuf -i 5000-5010 -n 1`"; ss -lpn | grep -q ":$PORT " || break; done
+
+snapctl set port="$PORT"
+
+# Generate manifest
+generate_manifest.sh
