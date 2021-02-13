@@ -88,6 +88,14 @@ apps:
 plugs:
   usb-0:
     interface: serial-port
+  usb-1:
+    interface: serial-port
+  usb-2:
+    interface: serial-port
+  usb-3:
+    interface: serial-port
+  network-observe:
+    interface: network-observe
 
 slots:
   package-assets:
