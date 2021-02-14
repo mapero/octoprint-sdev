@@ -28,6 +28,12 @@ snap install --dangerous --name octoprint-sdev_mega octoprint-sdev
 snap install --dangerous --name octoprint-sdev_artistd octoprint-sdev
 ```
 
+## License
+
+The snapcraft build declarations including build scripts and configurations are under MIT license
+
+octoprint is licensed under Affero General Public License (AGPL), see [source](https://github.com/OctoPrint/OctoPrint)
+
 ## Maintainers
 
 Jochen Scheib

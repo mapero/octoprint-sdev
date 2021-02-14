@@ -1,9 +1,10 @@
 #!/bin/bash -x
 
-# Find a port 5000-5010
-while :; do PORT="`shuf -i 5000-5010 -n 1`"; ss -lpn | grep -q ":$PORT " || break; done
+# Find a port 5000++
+PORT=5000
+while :; do nc -z localhost $PORT || break; PORT=$((PORT + 1));  done
 
 snapctl set port="$PORT"
 
 # Generate manifest
-generate_manifest.sh
+$SNAP/snap/command-chain/snapcraft-runner generate_manifest.sh
