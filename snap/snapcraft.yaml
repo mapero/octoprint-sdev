@@ -104,7 +104,7 @@ slots:
     content: package-assets
     source:
       read:
-      - $SNAP_DATA/package-assets/$SNAP_INSTANCE_NAME
+      - $SNAP_DATA/package-assets/$SNAPCRAFT_PROJECT_NAME
 
 layout:
   $SNAP/usr/lib/python3/dist-packages:
@@ -112,4 +112,4 @@ layout:
   $SNAP/usr/lib/python3/site-packages:
     bind: $SNAP_DATA/site-packages
   $SNAP/usr/local/lib/python3/dist-packages:
-    bind: $SNAP_DATA/local/dist-packages
+    bind: $SNAP_DATA/dist-packages
