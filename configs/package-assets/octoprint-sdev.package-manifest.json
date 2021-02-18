@@ -1,0 +1,26 @@
+{
+    "$schema": "https://json-schema.boschrexroth.com/ctrlx-automation/ctrlx-core/apps/package-manifest/package-manifest.v1.schema.json",
+    "id": "octoprint-sdev",
+    "services": {
+        "proxyMappings": [
+            {
+                "binding": ":5000",
+                "name": "octoprint-sdev.octoprint",
+                "url": "/octoprint",
+                "options": [{
+                    "option": "header_upstream",
+                    "value": "X-Script-Name /octoprint"
+                }]
+            }
+        ]
+    },
+    "menus": {
+        "sidebar": [{
+            "id": "octoprint-sdev.octoprint",
+            "title": "Octoprint",
+            "link": "http://${hostname}:5000",
+            "icon": "bosch-ic-3d-print",
+            "target": "octoprint"
+        }]
+    }
+}
