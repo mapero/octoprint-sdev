@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.boschrexroth.com/ctrlx-automation/ctrlx-core/apps/package-manifest/package-manifest.v1.schema.json",
     "id": "octoprint-sdev",
     "services": {
-        "proxyMappings": [
+        "proxyMapping": [
             {
                 "binding": ":5000",
                 "name": "octoprint-sdev.octoprint",
