@@ -13,28 +13,16 @@
                         "value": "X-Script-Name /octoprint"
                     },
                     {
-                        "option": "header_upstream",
-                        "value": "Host {>Host}"
+                        "option": "websocket",
+                        "value": ""
                     },
                     {
-                        "option": "header_upstream",
-                        "value": "Upgrade {>Upgrade}"
+                        "option": "transparent",
+                        "value": ""
                     },
                     {
-                        "option": "header_upstream",
-                        "value": "Connection \"upgrade\""
-                    },
-                    {
-                        "option": "header_upstream",
-                        "value": "X-Real-IP {remote}"
-                    },
-                    {
-                        "option": "header_upstream",
-                        "value": "X-Forwarded-For {remote}"
-                    },
-                    {
-                        "option": "header_upstream",
-                        "value": "X-Scheme {scheme}"
+                        "option": "without",
+                        "value": "/octoprint"
                     }
                 ]
             }
@@ -45,7 +33,7 @@
             {
                 "id": "octoprint-sdev.octoprint",
                 "title": "Octoprint",
-                "link": "http://${hostname}:5000",
+                "link": "/octoprint",
                 "icon": "bosch-ic-3d-print",
                 "target": "octoprint"
             }
