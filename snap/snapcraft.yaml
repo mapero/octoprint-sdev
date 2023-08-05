@@ -1,13 +1,11 @@
 name: octoprint-sdev
 title: Octoprint
-base: core18
+base: core22
 summary: Octoprint the snappy web interface for your 3D printer
 icon: snap/gui/logo.png
 architectures:
-  - build-on: amd64
-    run-on: amd64
-  - build-on: arm64
-    run-on: arm64
+  - amd64
+  - arm64
 description: |
   # Full remote control & monitoring
 
@@ -26,6 +24,7 @@ description: |
   Integration into sidebar and reverse proxy environment
 confinement: strict
 adopt-info: version
+version: 1.9.2
 
 parts:
   git-info:
@@ -37,14 +36,12 @@ parts:
       - BRANCH
   octoprint:
     plugin: python
-    python-version: python3
     source: https://github.com/OctoPrint/OctoPrint.git
+    python-requirements:
+    - requirements.txt
     override-pull: |
-      export OCTOPRINT_VERSION=$(cat $SNAPCRAFT_STAGE/VERSION)
-      snapcraftctl pull
-      git checkout tags/${OCTOPRINT_VERSION}
-    after:
-    - configs
+      craftctl default
+      git checkout tags/$(craftctl get version)
   configs:
     source: ./configs
     plugin: dump
@@ -55,11 +52,11 @@ parts:
     plugin: nil
     override-stage: |
       if [ "$(cat BRANCH)" = "master" ]; then
-        snapcraftctl set-grade "stable"
-        snapcraftctl set-version "$(cat VERSION)"
+        craftctl set grade "stable"
+        craftctl set version "$(craftctl get version)"
       else
-        snapcraftctl set-grade "devel"
-        snapcraftctl set-version "$(cat VERSION)-devel+$(date +%Y%m%d%H%M)"
+        craftctl set grade="devel"
+        craftctl set version="$(craftctl get version)-devel+$(date +%Y%m%d%H%M)"
       fi
     after:
     - git-info
@@ -69,7 +66,7 @@ parts:
 
 apps:
   ctrlx-octoprint:
-    command: usr/bin/python3 $SNAP/bin/octoprint serve -c $SNAP_DATA/config.yaml -b $SNAP_DATA/data --iknowwhatimdoing
+    command: bin/python3 bin/octoprint serve -c $SNAP_DATA/config.yaml -b $SNAP_DATA/data --iknowwhatimdoing
     daemon: simple
     plugs: 
       - network-bind
